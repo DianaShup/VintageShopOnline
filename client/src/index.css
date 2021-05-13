@@ -1,0 +1,47 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+*{
+  font-family: 'Quicksand', sans-serif;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #24292e;
+}
+
+
+.app {
+  font-size: 18px;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+input.error {
+  font-size: 18px;
+}
+
+
+.input-feedback {
+  color: red;
+  height: 6px;
+  margin-top: -12px;
+}
+ 
+table {
+  font-size: 18px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
