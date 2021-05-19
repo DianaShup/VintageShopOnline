@@ -27,7 +27,7 @@ function CartPage(props) {
                     })
             }
         }
-    }, [props.user.userData])
+    }, [dispatch, props.user.userData])
 
 
     const calculateTotal = (cartDetail) => {

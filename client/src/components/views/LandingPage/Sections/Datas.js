@@ -11,23 +11,23 @@ const price = [
     },
     {
         "_id": 2,
-        "name": "od 200 do 249",
-        "array": [200, 249]
+        "name": "od 200 do 500",
+        "array": [200, 500]
     },
     {
         "_id": 3,
-        "name": "od 250 do 279",
-        "array": [250, 279]
+        "name": "od 500 do 2000",
+        "array": [500, 2000]
     },
     {
         "_id": 4,
-        "name": "od 280 do 299",
-        "array": [280, 299]
+        "name": "od 2000 do 10000",
+        "array": [2000, 10000]
     },
     {
         "_id": 5,
-        "name": "300 i więcej",
-        "array": [300, 3000]
+        "name": "10000 i więcej",
+        "array": [10000, 1000000]
     }
 ]
 
@@ -60,8 +60,14 @@ const categories = [
     },
     {
         "_id": 7,
-        "name": "Inne"
+        "name": "Sukienka Vintage"
+    },
+    {
+        "_id": 8,
+        "name": "Aksesoria Vintage"
     }
+
+
 ]
 
 

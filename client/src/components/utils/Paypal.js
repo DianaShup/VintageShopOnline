@@ -29,26 +29,26 @@ export default class Paypal extends React.Component {
         // Document on Paypal's currency code: https://developer.paypal.com/docs/classic/api/currency_codes/
 
         const client = {
-            sandbox: 'AWGM_eduFSJmkVZ705Cc7EKUx-qqSKjF3_TasppXhaeJtnAwJNfSDSrtcnXekH1MdxWeXywg6rOpFL8I',
-            production: 'YOUR-PRODUCTION-APP-ID',
-        }
-        // In order to get production's app-ID, you will have to send your app to Paypal for approval first
-        // For sandbox app-ID (after logging into your developer account, please locate the "REST API apps" section, click "Create App"):
-        //   => https://developer.paypal.com/docs/classic/lifecycle/sb_credentials/
-        // For production app-ID:
-        //   => https://developer.paypal.com/docs/classic/lifecycle/goingLive/
+                sandbox: 'AS5AMgJLCe-ZAy2JCN395m4R4K9FhrQQE0F4VvFyw8XnK9CtvGX6TZYA-wzsA6VaKIm8CmmHJfWNdQ76',
+                production: 'YOUR-PRODUCTION-APP-ID',
+            }
+            // In order to get production's app-ID, you will have to send your app to Paypal for approval first
+            // For sandbox app-ID (after logging into your developer account, please locate the "REST API apps" section, click "Create App"):
+            //   => https://developer.paypal.com/docs/classic/lifecycle/sb_credentials/
+            // For production app-ID:
+            //   => https://developer.paypal.com/docs/classic/lifecycle/goingLive/
 
         // NB. You can also have many Paypal express checkout buttons on page, just pass in the correct amount and they will work!
-        return (
-            <PaypalExpressBtn
-                env={env}
-                client={client}
-                currency={currency}
-                total={total}
-                onError={onError}
-                onSuccess={onSuccess}
-                onCancel={onCancel}
-                style={{ size:'large'}}
+        return ( <
+            PaypalExpressBtn env = { env }
+            client = { client }
+            currency = { currency }
+            total = { total }
+            onError = { onError }
+            onSuccess = { onSuccess }
+            onCancel = { onCancel }
+            style = {
+                { size: 'large' } }
             />
         );
     }
