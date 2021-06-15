@@ -13,6 +13,7 @@ import HistoryPage from './views/HistoryPage/HistoryPage';
 import AdminPage from './views/AdminPage/AdminPage';
 import UsersPanel from './views/AdminPage/UsersPanel';
 import ProductsPanel from './views/AdminPage/ProductsPanel';
+import ChartsPanel from './views/AdminPage/ChartsPanel';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route exact path="/admin" component={Auth(AdminPage, true, true)} /> 
           <Route exact path="/admin/userpanel" component={Auth(UsersPanel, true)} /> 
           <Route exact path="/admin/productpanel" component={Auth(ProductsPanel, true)} /> 
+          <Route exact path="/admin/chartpanel" component={Auth(ChartsPanel, true)} /> 
 
         </Switch>
       </div>

@@ -13,6 +13,10 @@ function AdminPage() {
             <br />
             <br />
             <a href="/admin/productpanel"><Button size="large"> Produkty </Button></a>
+            <br/>
+            <br />
+            <a href="/admin/chartpanel"><Button size="large"> Wykresy </Button></a>
+
         </div>
     );
     

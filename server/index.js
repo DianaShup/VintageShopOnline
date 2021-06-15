@@ -20,6 +20,7 @@ app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
 app.use('/api/product', require('./routes/product'));
+app.use('/api/payment', require('./routes/payment'));
 
 
 app.use('/uploads', express.static('uploads'));

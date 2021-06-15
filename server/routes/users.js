@@ -10,6 +10,8 @@ const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const { Collection } = require('mongoose');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 
 router.get("/auth", auth, (req, res) => {
@@ -56,7 +58,7 @@ router.post("/login", (req, res) => {
                 res
                     .cookie("w_auth", user.token)
                     .status(200)
-                    .json({loginSuccess: true, userId: user._id, isAdmin: user.isAdmin});
+                    .json({ loginSuccess: true, userId: user._id, isAdmin: user.isAdmin });
             });
         });
     });
@@ -97,7 +99,8 @@ router.get('/addToCart', auth, (req, res) => {
         } else {
             User.findOneAndUpdate(
                 { _id: req.user._id },
-                {   $push: {
+                {
+                    $push: {
                         cart: {
                             id: req.query.productId,
                             quantity: 1,
@@ -111,7 +114,7 @@ router.get('/addToCart', auth, (req, res) => {
                     res.status(200).json(userInfo.cart)
                 }
             )
-            
+
         }
     })
 });
@@ -244,60 +247,60 @@ router.get('/getHistory', auth, (req, res) => {
 
 
 
-router.delete("/:id", (req, res) =>{
+router.delete("/:id", (req, res) => {
     const id = req.params.id;
 
     User.findByIdAndRemove(id)
-      .then(data => {
-        if (!data) {
-            alert('Nie udało się usunąć użytkownika o podanym id')
-          res.status(404).send({
-            message: `Nie udało się odnaleźć i usunąć użytkownika o id ${id}`
-          });
-        } else {
-          res.send({
-            message: `Usunięto użytkownika o ${id}`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({ 
-          message: "Nie udało się usunąć użytkownika o id" + id
+        .then(data => {
+            if (!data) {
+                alert('Nie udało się usunąć użytkownika o podanym id')
+                res.status(404).send({
+                    message: `Nie udało się odnaleźć i usunąć użytkownika o id ${id}`
+                });
+            } else {
+                res.send({
+                    message: `Usunięto użytkownika o ${id}`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Nie udało się usunąć użytkownika o id" + id
+            });
         });
-      });   
 });
 
 
 router.post('/updateUser/:id', async (req, res) => {
 
     const password = req.body.password
-    if(password){
+    if (password) {
         bcrypt.genSalt(saltRounds, function (err, salt) {
-            if(err) console.log(err)
-            bcrypt.hash(password, salt, async (next, hash) =>{
-                if(password === undefined) console.log('-----password undefined-----')
-                if(err) throw(err)
+            if (err) console.log(err)
+            bcrypt.hash(password, salt, async (next, hash) => {
+                if (password === undefined) console.log('-----password undefined-----')
+                if (err) throw (err)
                 req.body.password = await bcrypt.hash(req.body.password, salt)
 
-            User.findByIdAndUpdate(req.params.id, req.body, function(err, user) {
-                if (err) {
-                    res.status(404).send({
-                        message: 'Nie można zaktualizować danych użytkownika'
-                    });  
-                } else {
-                    console.log('edycja danych: sukces');
-                    res.send(user);
-                }
-           
-            });
+                User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
+                    if (err) {
+                        res.status(404).send({
+                            message: 'Nie można zaktualizować danych użytkownika'
+                        });
+                    } else {
+                        console.log('edycja danych: sukces');
+                        res.send(user);
+                    }
+
+                });
+            })
         })
-    })
-    }else{
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user) {
+    } else {
+        User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
             if (err) {
                 res.status(404).send({
                     message: 'Nie można zaktualizować danych użytkownika'
-                });  
+                });
             } else {
                 console.log('edycja danych: sukces');
                 res.send(user);
@@ -325,19 +328,39 @@ router.post("/getUsers", (req, res) => {
             .exec((err, users) => {
                 console.log(err)
                 if (err) return res.status(400).json({ success: false, err })
-                res.status(200).json({ success: true, users})
+                res.status(200).json({ success: true, users })
             })
     } else {
+        
         User.find(findArgs)
             .populate("writer")
             .sort([[sortBy, order]])
             .limit(limit)
             .exec((err, users) => {
+                //console.log(users[0].history[0]);
                 if (err) return res.status(400).json({ success: false, err })
-                res.status(200).json({ success: true, users})
+                res.status(200).json({ success: true, users })
             })
     }
 });
+
+router.post("/api/v1/auth/google", async (req, res) => {
+    const { token } = req.body
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.CLIENT_ID
+    });
+
+    const { name, email, picture } = ticket.getPayload();
+    const user = await db.user.upsert({
+        where: { email: email },
+        update: { name, picture },
+        create: { name, email, picture }
+    });
+    res.status(201)
+    res.json(user)
+});
+
 
 
 

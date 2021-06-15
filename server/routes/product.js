@@ -77,9 +77,9 @@ router.post("/getProducts", (req, res) => {
             }
         }
     }
-    console.log(findArgs)
+    console.log("findArgs", findArgs);
 
-    if (term) {
+    if (term) {       
         Product.find(findArgs)
             .find({ $text: { $search: term } })
             .populate("writer")
